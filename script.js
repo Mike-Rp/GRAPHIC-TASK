@@ -24,10 +24,10 @@ function loadFavorites() {
             favorites = JSON.parse(savedFavorites);
         } catch (e) {
             console.error('Error loading favorites:', e);
-            favorites = ['BCGAME', 'JBCOM', 'TSLOTS', 'TWIXER', 'COMSOC', 'OTHERS'];
+            favorites = [];
         }
     } else {
-        favorites = ['BCGAME', 'JBCOM', 'TSLOTS', 'TWIXER', 'COMSOC', 'OTHERS'];
+        favorites = [];
     }
     renderFavorites();
 }
