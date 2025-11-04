@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAPHIC TASK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>GRAPHIC TASK</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <nav class="nav-menu">
+            <button class="nav-item active" data-page="active">
+                <i class="fas fa-tasks"></i>
+                <span>Active Tasks</span>
+            </button>
+            <button class="nav-item" data-page="done">
+                <i class="fas fa-check-circle"></i>
+                <span>Done Banners</span>
+            </button>
+            <button class="nav-item" data-page="deleted">
+                <i class="fas fa-trash"></i>
+                <span>Recently Deleted</span>
+            </button>
+            <button class="nav-item" data-page="add">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Task</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="notification" id="notification">
+                <i class="fas fa-calendar-check"></i>
+                <span>You have task(s) due today!</span>
+            </div>
+
+            <!-- Add Task Page -->
+            <div class="page" id="addPage">
+                <div class="add-task-section">
+                    <h2 class="section-title">Add New Task</h2>
+                    <form id="taskForm">
+                        <div class="form-group">
+                            <label>Company</label>
+                            <div class="company-header">
+                                <div class="company-suggestions" id="companySuggestions"></div>
+                                <button type="button" class="btn-add-favorite" id="addFavoriteBtn">
+                                    <i class="fas fa-plus"></i>
+                                    Add Favorite
+                                </button>
+                            </div>
+                            <input type="text" id="taskCompany" placeholder="Type or select company name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Company Color</label>
+                            <div class="color-options">
+                                <button type="button" class="color-btn" data-color="#4361ee" style="background: #4361ee;"></button>
+                                <button type="button" class="color-btn" data-color="#06d6a0" style="background: #06d6a0;"></button>
+                                <button type="button" class="color-btn" data-color="#5bc0de" style="background: #5bc0de;"></button>
+                                <button type="button" class="color-btn" data-color="#ffd166" style="background: #ffd166;"></button>
+                                <button type="button" class="color-btn" data-color="#90ee90" style="background: #90ee90;"></button>
+                                <button type="button" class="color-btn active" data-color="#ef476f" style="background: #ef476f;"></button>
+                            </div>
+                            <input type="hidden" id="taskColor" value="#ef476f">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="taskTitle" placeholder="Enter task title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="taskDescription" placeholder="Enter task description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="taskDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Image</label>
+                            <div class="file-input-wrapper">
+                                <label for="taskImage" class="file-input-label" id="fileInputLabel">
+                                    <i class="fas fa-upload"></i>
+                                    Choose Image
+                                </label>
+                                <input type="file" id="taskImage" accept="image/*">
+                            </div>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Task
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Active Tasks Page -->
+            <div class="page active" id="activePage">
+                <h2 class="section-title">Active Tasks</h2>
+                <div class="tasks-grid" id="activeTasks"></div>
+            </div>
+
+            <!-- Done Banners Page -->
+            <div class="page" id="donePage">
+                <h2 class="section-title">Done Banners</h2>
+                <div class="tasks-grid" id="doneTasks"></div>
+            </div>
+
+            <!-- Recently Deleted Page -->
+            <div class="page" id="deletedPage">
+                <h2 class="section-title">Recently Deleted</h2>
+                <div class="tasks-grid" id="deletedTasks"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="section-title">Edit Task</h2>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editForm">
+                <div class="form-group">
+                    <label>Company</label>
+                    <div class="company-header">
+                        <div class="company-suggestions" id="companySuggestionsEdit"></div>
+                        <button type="button" class="btn-add-favorite" id="addFavoriteBtnEdit">
+                            <i class="fas fa-plus"></i>
+                            Add Favorite
+                        </button>
+                    </div>
+                    <input type="text" id="editCompany" placeholder="Type or select company name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Company Color</label>
+                    <div class="color-options">
+                        <button type="button" class="color-btn-edit" data-color="#4361ee" style="background: #4361ee;"></button>
+                        <button type="button" class="color-btn-edit" data-color="#06d6a0" style="background: #06d6a0;"></button>
+                        <button type="button" class="color-btn-edit" data-color="#5bc0de" style="background: #5bc0de;"></button>
+                        <button type="button" class="color-btn-edit" data-color="#ffd166" style="background: #ffd166;"></button>
+                        <button type="button" class="color-btn-edit" data-color="#90ee90" style="background: #90ee90;"></button>
+                        <button type="button" class="color-btn-edit" data-color="#ef476f" style="background: #ef476f;"></button>
+                    </div>
+                    <input type="hidden" id="editColor" value="#ef476f">
+                </div>
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="editTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editDescription"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="editDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload New Image</label>
+                    <div class="file-input-wrapper">
+                        <label for="editImage" class="file-input-label" id="editFileInputLabel">
+                            <i class="fas fa-upload"></i>
+                            Choose Image
+                        </label>
+                        <input type="file" id="editImage" accept="image/*">
+                    </div>
+                    <div class="file-name" id="editFileName"></div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Details Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="section-title">Task Details</h2>
+                <button class="modal-close" id="viewModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="viewModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Add Favorite Modal -->
+    <div class="modal" id="favoriteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="section-title">Add Favorite Company</h2>
+                <button class="modal-close" id="favoriteModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="favoriteForm">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" id="favoriteCompanyName" placeholder="Enter company name" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Add Favorite
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content confirm-modal">
+            <div class="confirm-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2 class="confirm-title">Are you sure?</h2>
+            <p class="confirm-message">This task will be permanently deleted and cannot be recovered.</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="confirmCancel">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+                <button class="btn-danger" id="confirmDelete">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete Forever
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
